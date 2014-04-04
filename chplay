@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PLAY_ROOT_DIR=~/.
+
+echo ""
+echo "##### play version list #####"
+ls $PLAY_ROOT_DIR | grep 'play-' | sed s/'play-'/'- '/g
+echo "#############################"
+echo ""
+printf "Input play version you want to change > "
+read PLAY_VERSION
+
+if [ -z "$PLAY_VERSION" ]; then
+  echo "usage:not specified play version." 1>&2
+  exit 1
+fi
+
+PLAY_DIR_NAME=play-$PLAY_VERSION
+
+if [ -z `ls $PLAY_ROOT_DIR | grep $PLAY_DIR_NAME` ]; then
+  echo "$PLAY_DIR_NAME is not found."
+  exit 1
+fi
+
+cd $PLAY_ROOT_DIR
+rm play
+ln -s $PLAY_DIR_NAME play
+
+echo "play version changed $PLAY_VERSION"
+exit 0
